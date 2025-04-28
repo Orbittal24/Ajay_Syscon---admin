@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajay Syscon | Shift</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Reset default styles and set font family */
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Full page container to hold the sidebar, topbar, and content */
+    /* body {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      background-color: #adb2cc; 
+      height: 100vh;
+    } */
+
+    body {
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+    background-color: #adb2cc;
+    background-image: url('dist/img/Ajay_Syscon_Logo.jpg');
+    background-size: cover; /* Makes the image cover the entire background */
+    background-position: center; /* Centers the background image */
+    /* height: 100vh; */
+}
+
+
+    /* Topbar container styles */
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      /* Align items to the right */
+      align-items: center;
+      background-color: #28292d;
+      /* Dark color from the logo */
+      padding: 10px 20px;
+      color: #45f3ff;
+      /* Neon green color for text */
+      width: 100%;
+      position: fixed;
+      /* Keeps the topbar fixed at the top */
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    /* Individual nav-item styles */
+    .topbar .nav-item {
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 5px 15px;
+      /* Reduce space between items */
+      margin-left: 10px;
+      /* Space between each button */
+      transition: background-color 0.3s ease;
+    }
+
+    .topbar .nav-item:hover {
+      background-color: rgba(69, 243, 255, 0.2);
+      border-radius: 5px;
+    }
+
+    /* Main content wrapper */
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100vh;
+      /* Adjusted to fill the entire viewport height */
+    }
+
+    /* Sidebar container styles */
+    .sidebar {
+      background-color: #28292d;
+      /* Dark color from the logo */
+      width: 150px;
+      /* Adjust the width of the sidebar if necessary */
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-right: 2px solid #1c1c1c;
+      position: fixed;
+      /* Keeps the sidebar fixed */
+      top: 0;
+      /* Aligns the sidebar to the top of the viewport */
+      left: 0;
+      /* Aligns the sidebar to the left of the viewport */
+      height: 100vh;
+      /* Makes the sidebar full height */
+      z-index: 1100;
+      /* Ensures the sidebar appears above the topbar */
+    }
+
+    /* Sidebar brand logo styles */
+    .sidebar .brand-image {
+      border-radius: 75%;
+      margin-top: 10px;
+      /* Adjust this value to move the logo down slightly if needed */
+      width: 120px;
+      /* Increase the size of the logo */
+      height: 120px;
+      /* Increase the size of the logo */
+    }
+
+    /* Content area for the shift assignment form */
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Main container styles */
+    .box {
+      position: relative;
+      width: 470px;
+      height: 500px;
+      background: #1c1c1c;
+      /* Matches the dark elements of the page */
+      border-radius: 50px 5px;
+      overflow: hidden;
+    }
+
+    /* Form container styles */
+    form {
+      position: absolute;
+      inset: 2px;
+      background: #28292d;
+      /* Dark color from the logo */
+      border-radius: 50px 5px;
+      z-index: 10;
+      padding: 30px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Title styles */
+    .title h1 {
+      color: #45f3ff;
+      /* Neon green color for contrast */
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Input box styles */
+    .input-box {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .input-box input {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      outline: none;
+      border-radius: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin: 10px 0;
+      color: white;
+    }
+
+    .input-box input::placeholder {
+      color: #cdd1d2;
+    }
+
+    /* Submit button styles */
+    .input-box input[type="submit"] {
+      background-color: #45f3ff;
+      cursor: pointer;
+      color: #16100e;
+      filter: drop-shadow(0 5px 10px #45f3ff);
+      margin-bottom: 20px;
+    }
+
+    .label-color {
+      color: white;
+      /* Set text color to white */
+    }
+
+
+
+    /* Create animated gradient border effect */
+.box::before,
+.box::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 370px;
+  height: 450px;
+  background: linear-gradient(60deg, transparent, #45f3ff, #45f3ff);
+  transform-origin: bottom right;
+  animation: animate 6s linear infinite;
+}
+
+.box::after {
+  background: linear-gradient(60deg, transparent, #d9138a, #d9138a);
+  animation-delay: -3s;
+}
+
+    /* Keyframes for gradient animation */
+@keyframes animate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+  </style>
+
+</head>
+
+<body>
+  <!-- Topbar section -->
+  <div class="topbar">
+    <div class="nav-item" id="backButton">Back</div>
+    <div class="nav-item" id="ReportButton">Reports</div>
+    <div class="nav-item" id="liveButton">Live Temperature</div>
+    <div class="nav-item" id="homeButton">Home</div>
+    <div class="nav-item" id="logoutButton">Logout</div>
+  </div>
+
+  <!-- Main content wrapper -->
+  <div class="main-content">
+    <!-- Sidebar section -->
+    <div class="sidebar">
+      <img src="../../dist/img/ajay_syscon_Logo.png" alt="Logo" class="brand-image" />
+    </div>
+
+    <!-- Content section containing the login form -->
+    <!-- Content section containing the shift assignment form -->
+    <div class="content">
+      <div class="box">
+        <form id="shiftForm">
+          <div class="title">
+            <h1>Assign Shift</h1>
+          </div>
+          <div class="input-box">
+            <label for="shiftCode" class="label-color">Shift Code</label>
+            <input id="shiftCode" name="shiftCode" type="text" placeholder="Shift Code" required />
+
+            <label for="startTime" class="label-color">Start Time</label>
+            <input id="startTime" name="startTime" type="time" placeholder="Start Time" required />
+
+            <label for="endTime" class="label-color">End Time</label>
+            <input id="endTime" name="endTime" type="time" placeholder="End Time" required />
+
+            <input type="submit" class="assignShift" value="Assign Shift" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    document.getElementById('backButton').addEventListener('click', function () {
+      window.history.back();
+    });
+
+    document.getElementById('ReportButton').addEventListener('click', function () {
+      window.location.href = 'report.html';
+    });
+
+    document.getElementById('liveButton').addEventListener('click', function () {
+      window.location.href = 'live_temp.html';
+    });
+
+    document.getElementById('homeButton').addEventListener('click', function () {
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', function () {
+      window.location.href = 'login11.html';
+    });
+
+
+
+    document.querySelector('#shiftForm').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form from submitting normally
+
+      // Collect shift data from the form fields
+      const shiftCode = document.getElementById('shiftCode').value;
+      const startTime = document.getElementById('startTime').value;
+      const endTime = document.getElementById('endTime').value;
+
+      // Send shift data to the server using Socket.io
+      socket.emit('assignShift', { shiftCode, startTime, endTime });
+    });
+
+    // Listen for server response and display the result
+    socket.on('shiftAssignmentResult', function (data) {
+      alert(data.message);
+    });
+
+
+
+  </script>
+</body>
+
+</html>

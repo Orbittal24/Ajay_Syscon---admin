@@ -1,0 +1,67 @@
+import RPi.GPIO as GPIO
+import time
+import requests
+
+# Setup
+GPIO.setmode(GPIO.BCM)  # Set GPIO numbering to BCM
+BUTTON_PIN = 18         # GPIO pin for the push button (physical pin 12)
+LED_PIN = 23            # GPIO pin for the LED (physical pin 16)
+
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)  # Set up the button pin as input with pull-up resistor
+GPIO.setup(LED_PIN, GPIO.OUT)  # Set up the LED pin as output
+
+# Ensure the LED is off initially
+GPIO.output(LED_PIN, GPIO.LOW)
+
+# Simulating incoming data
+def get_data():
+    # This function simulates getting data continuously
+    current_date = time.strftime("%d-%m-%Y")
+    current_time = time.strftime("%H:%M:%S")
+    run_value = "A2345"  # Replace with actual run value if dynamic
+    temperature = "0551"  # Replace with actual temperature value if dynamic
+
+    # Create the data string
+    data_string = f"date:{current_date},time:{current_time},run:{run_value},temp:{temperature}"
+    return data_string
+
+def send_data_to_server(data):
+    print("Button pressed, sending data...")
+
+    try:
+        # Send data to the server using HTTP POST request
+        # response = requests.post("http://192.168.140.121:7080", data=data)
+        response = requests.post("http://192.168.0.136:7080", data=data)
+
+      
+        
+        if response.status_code == 200:
+            print("Data sent successfully:", response.text)
+            # Blink the LED when data is successfully inserted
+            GPIO.output(LED_PIN, GPIO.HIGH)
+            time.sleep(0.5)  # LED on for 0.5 seconds
+            GPIO.output(LED_PIN, GPIO.LOW)
+        else:
+            print("Failed to send data:", response.status_code, response.text)
+
+    except Exception as e:
+        print("An error occurred:", e)
+
+# Main function
+if __name__ == "__main__":
+    try:
+        while True:
+            # Constantly get data
+            data = get_data()
+            print("Data received:", data)
+
+            # Check if button is pressed
+            button_state = GPIO.input(BUTTON_PIN)
+            if button_state == GPIO.LOW:  # Button pressed
+                send_data_to_server(data)
+                time.sleep(1)  # Debounce delay to avoid multiple triggers
+            
+            time.sleep(2)  # Simulate a delay between data fetches
+
+    finally:
+        GPIO.cleanup()  # Clean up GPIO settings when script ends

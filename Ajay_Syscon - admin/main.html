@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ajay Syscon</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-size: 24px;
+      background: #2980b9 url('/dist/img/tumblr_static_bg3.png') repeat 0 0;
+      
+      -webkit-animation: 10s linear 0s normal none infinite animate;
+      -moz-animation: 10s linear 0s normal none infinite animate;
+      -ms-animation: 10s linear 0s normal none infinite animate;
+      -o-animation: 10s linear 0s normal none infinite animate;
+      animation: 10s linear 0s normal none infinite animate;
+    }
+
+    @keyframes animate {
+      from {background-position:0 0;}
+      to {background-position: 500px 0;}
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column; /* Change direction to column */
+      height: 100%;
+    }
+
+    .sidebar {
+      width: 130px;
+      background: rgba(0, 0, 0, 0.507);
+      height: 100%;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+      border-radius: 10px;
+    }
+    .topbar {
+  width: calc(100% - 60px); /* Adjust width to account for sidebar */
+  height: 60px; /* Adjust height as needed */
+  background: transparent; /* Make the top bar fully transparent */
+  display: flex;
+  justify-content: flex-end; /* Align items to the right */
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 60px; /* Align with the sidebar */
+  z-index: 1; /* Ensure it stays on top */
+  padding-right: 20px; /* Add some padding to the right */
+}
+
+.topbar .nav-item {
+  color: #FFF;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  margin-left: 10px; /* Add spacing between buttons */
+}
+
+.topbar .nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+    .content {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      margin-left: 60px;
+      margin-top: 60px; /* Add margin to avoid overlap with topbar */
+    }
+
+    .form-container {
+      width: 80%;
+      max-width: 1200px;
+      padding: 40px;
+      background: rgba(0, 0, 0, .4);
+      box-sizing: border-box;
+      box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 200px;
+      margin-top: 300px;
+    }
+
+    .btn-custom {
+      background: #03A9F4;
+      border: none;
+      outline: none;
+      color: #FFF;
+      padding: 15px 30px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 22px;
+      margin: 0 10px;
+    }
+
+    .btn-custom:hover {
+      background-color: rgba(3, 169, 244, 0.7);
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="sidebar">
+    <!-- Brand Logo -->
+    <img src="../../dist/img/ajay_syscon_Logo.png" alt="Logo" class="brand-image img-circle elevation-3" style="width: 100px; height: 100px;">
+
+    
+    <!-- Sidebar content can go here -->
+  </div>
+
+  <div class="topbar">
+    <div class="nav-item" id="backButton">Back</div>
+    <div class="nav-item" id="ReportButton">Reports</div>
+    <div class="nav-item" id="colorgraph">Graph</div>
+
+    <div class="nav-item" id="liveButton">Live Temperature</div>
+
+     <div class="nav-item" id="homeButton">Home</div>
+    <!-- <div class="nav-item" id="logoutButton">Logout</div> -->
+  </div>
+
+  <div class="content">
+    <div class="form-container">
+      <button type="button" class="btn btn-custom" id="adminButton">Admin Dashboard</button>
+      <button type="button" class="btn btn-custom" id="companyButton">Company Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  document.getElementById('adminButton').addEventListener('click', function() {
+    window.location.href = 'adminview.html';
+  });
+
+  document.getElementById('companyButton').addEventListener('click', function() {
+    window.location.href = 'companydashboard.html';
+  });
+
+  document.getElementById('backButton').addEventListener('click', function() {
+    window.history.back();
+  });
+  document.getElementById('ReportButton').addEventListener('click', function() {
+    window.location.href = 'report.html';
+  });
+  document.getElementById('colorgraph').addEventListener('click', () => {
+      window.location.href = 'colorgraph.html';
+    });
+  document.getElementById('liveButton').addEventListener('click', function() {
+    window.location.href = 'live_temp.html';
+  });
+  
+  document.getElementById('homeButton').addEventListener('click', function() {
+    window.location.href = 'index.html';
+  });
+
+  // document.getElementById('logoutButton').addEventListener('click', function() {
+  //   window.location.href = 'login.html';
+  // });
+</script>
+</body>
+</html>

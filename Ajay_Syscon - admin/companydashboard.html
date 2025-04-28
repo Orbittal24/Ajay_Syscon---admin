@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Company Dashboard</title>
+  <!-- <link rel="stylesheet" href="css/style.css" /> -->
+  <style>
+    /* Reset default styles and set font family */
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+     /* Full page container to hold the sidebar, topbar, and content */
+     body {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      background-color: #adb2cc;
+     
+      /* background-color: #cad5d6; */
+
+      /* Light background color from the logo */
+      height: 100vh;
+    }
+
+    /* Topbar container styles */
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      /* Align items to the right */
+      align-items: center;
+      /* background-color: #28292d; */
+      /* Dark color from the logo */
+      padding: 10px 20px;
+      color: #45f3ff;
+      /* Neon green color for text */
+      width: 100%;
+      position: fixed;
+      /* Keeps the topbar fixed at the top */
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+/* Updated nav-item styles for smaller size and rounded border */
+.topbar .nav-item {
+  cursor: pointer;
+  font-size: 0.9rem;  /* Slightly smaller font size */
+  padding: 8px 15px;  /* Reduced padding */
+  background-color: black;
+  border-radius: 15px; /* More rounded border */
+  margin-left: 8px;    /* Adjust spacing between buttons */
+  transition: all 0.3s ease;
+  color: #45f3ff;
+  border: 1px solid transparent;
+}
+
+/* Glow effect on hover */
+.topbar .nav-item:hover {
+  background-color: #45f3ff;
+  color: #d9138a;
+  border-color: #45f3ff;
+  box-shadow: 0 0 15px #45f3ff, 0 0 30px #45f3ff, 0 0 45px #d9138a;
+}
+
+    /* Main content wrapper */
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100vh;
+      /* Adjusted to fill the entire viewport height */
+    }
+
+  /* Sidebar container styles */
+  .sidebar {
+  /* background-color: #28292d; Dark color from the logo */
+ 
+  /* background-color:  #393768;  */
+  /* background-color:  #CCD538; */
+  /* background-color:  #b4da4e; */
+   /* background-color:  #c2e959; */
+   /* background-color: #CCFF33; */
+   background-color: #CCFF33;
+
+
+   
+   /* background-color:   #393768;  */
+
+
+
+
+  width: 350px; /* Adjust the width of the sidebar if necessary */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+  border-right: 2px solid #1c1c1c;
+  position: fixed; /* Keeps the sidebar fixed */
+  top: 0; /* Aligns the sidebar to the top of the viewport */
+  left: 0; /* Aligns the sidebar to the left of the viewport */
+  height: 100vh; /* Makes the sidebar full height */
+  z-index: 1100; /* Ensures the sidebar appears above the topbar */
+}
+
+/* Sidebar brand logo styles */
+/*  */
+.brand-image {
+  width: 250px; /* Adjust as needed */
+  height: auto;
+  display: block; /* Ensure it's visible */
+  margin: 0 auto; /* Center the image */
+}
+
+
+    /* Content area for the shift assignment form */
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Main container styles */
+    .box {
+      position: relative;
+      width: 680px;
+      height: 350px;
+      background: #1c1c1c;
+      /* Matches the dark elements of the page */
+      border-radius: 50px 5px;
+      overflow: hidden;
+      margin-top: 10px;
+      margin-left: 60px;
+      margin-right: -200px;
+      border: 10px solid transparent; /* You can adjust the thickness (e.g., 10px) */
+
+    }
+
+    /* Form container styles */
+    form {
+      position: absolute;
+      inset: 2px;
+      background: #28292d;
+      /* Dark color from the logo */
+      border-radius: 50px 5px;
+      z-index: 10;
+      padding: 30px 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Title styles */
+    .title h1 {
+      color: #45f3ff;
+      /* Neon green color for contrast */
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Input box styles */
+    .input-box {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .input-box input {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      outline: none;
+      border-radius: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin: 10px 0;
+      color: white;
+    }
+
+    .input-box input::placeholder {
+      color: #cdd1d2;
+    }
+
+    /* Submit button styles */
+    .input-box input[type="submit"] {
+      background-color: #45f3ff;
+      cursor: pointer;
+      color: #16100e;
+      filter: drop-shadow(0 5px 10px #45f3ff);
+      margin-bottom: 20px;
+    }
+
+    .label-color {
+      color: white;
+      /* Set text color to white */
+    }
+
+
+
+     /* Create animated gradient border effect */
+     .box::before,
+    .box::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 95%;
+      height: 450px;
+      background: linear-gradient(60deg, transparent, #45f3ff, #45f3ff);
+      transform-origin: bottom right;
+      animation: animate 9s linear infinite;
+    }
+
+    .box::after {
+      background: linear-gradient(60deg, transparent, #d9138a, #d9138a);
+      animation-delay: -3s;
+    }
+
+        /* Keyframes for gradient animation */
+    @keyframes animate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+
+    .temp-display {
+      font-size: 60px;
+      color: black;
+    }
+
+    .display-box {
+      font-size: 35px;
+      /* font-weight: bold; */
+      margin-top: 8px;
+      color: white;
+      text-align: center;
+      justify-content: center;  
+  }
+
+    .display-box_temp {
+      font-size: 70px;
+      margin-left: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* For the first element if you want a larger margin */
+    #tempDisplay {
+      margin-top: 10px;
+    }
+
+    .btn-custom {
+      background: #45f3ff; /* Orange background */
+        border: none;
+        outline: none;
+        color: #000; /* Black text color */
+        padding: 15px 30px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 0 10px;
+        font-size: 30px;
+        margin-top: 25px;
+        margin-left: 40px;
+    }
+
+    .btn-custom:hover {
+        background-color: #45f3ff; /* Lighter orange on hover */
+    }
+    .glow-button {
+  width: 180px; /* Adjust width to match your design */
+  height: 70px; /* Adjust height as needed */
+  background-color: #45f3ff;
+  color: #16100e;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px; /* Adjusted to match the rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  filter: drop-shadow(0 0 15px #45f3ff); /* Glow effect */
+}
+
+.glow-button:hover {
+  background-color: #1ec6e0;
+  filter: drop-shadow(0 0 25px #1ec6e0); /* Stronger glow on hover */
+}
+
+  </style>
+
+</head>
+
+<body>
+  <!-- Topbar section -->
+  <div class="topbar">
+    <div class="nav-item" id="backButton">Back</div>
+    <div class="nav-item" id="ReportButton">Reports</div>
+    <div class="nav-item" id="colorgraph">Graph</div>
+
+    <div class="nav-item" id="liveButton">Live Temperature</div>
+    <div class="nav-item" id="adminDetailsButton">Admin Details</div>
+
+    <div class="nav-item" id="homeButton">Home</div>
+    <div class="nav-item" id="logoutButton">Logout</div>
+  </div>
+
+  <!-- Main content wrapper -->
+  <div class="main-content">
+    <!-- Sidebar section -->
+    <!-- <div class="sidebar">
+     
+      <img src="../../dist/img/Ajay_Syscon_Logo.jpg" alt="Logo" class="brand-image" />
+
+    </div> -->
+    <div class="sidebar">
+      <!-- <img src="../../dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" /> -->
+      <img src="dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" />
+      
+      <!-- Website link below the logo -->
+      <a href="https://www.ajaysyscon.com/" target="_blank" class="website-link">
+        www.ajaysyscon.com
+      </a>
+    </div>
+    <!-- Content section containing the login form -->
+    <!-- Content section containing the shift assignment form -->
+    <div class="content">
+      <div class="box">
+        <!-- <form id="shiftForm">
+
+          <div class="input-box">
+            <button type="button" class="btn btn-custom" id="adminDetailsButton"><b>Admin Details</b></button>
+            <button type="button" class="btn btn-custom" id="licenceButton"><b>licence</b></button> 
+          </div>
+          <div class="input-box"></div>
+          <div class="input-box">
+            <button type="button" class="btn btn-custom" id="locationButton" style="margin-right: 90px; margin-left:60px;">
+                <b>Location</b>
+              </button>
+              <button type="button" class="btn btn-custom" id="shiftButton">
+                <b>Shift</b>
+              </button>
+              
+          </div>
+        </form> -->
+        <form id="shiftForm" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
+
+          <div style="display: flex; justify-content: center; gap: 80px; margin-bottom: 75px;">
+            <button type="button" id="companyDetailsButton" class="glow-button">
+              <b>Company Details</b>
+            </button>
+        
+            <button type="button" id="licenceButton" class="glow-button">
+              <b>License</b>
+            </button>
+          </div>
+        
+          <div style="display: flex; justify-content: center; gap: 80px;">
+            <button type="button" id="locationButton" class="glow-button">
+              <b>Location</b>
+            </button>
+        
+            <button type="button" id="shiftButton" class="glow-button">
+              <b>Shift</b>
+            </button>
+          </div>
+        
+        </form>
+        
+        
+
+
+
+
+
+        
+      </div>
+    </div>
+  </div>
+  </div>
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+
+
+  document.getElementById('backButton').addEventListener('click', function() {
+    window.history.back();
+  });
+  
+  document.getElementById('ReportButton').addEventListener('click', function() {
+    window.location.href = 'report.html';
+  });
+  document.getElementById('colorgraph').addEventListener('click', () => {
+      window.location.href = 'colorgraph.html';
+    });
+  document.getElementById('liveButton').addEventListener('click', function() {
+    window.location.href = 'live_temp.html';
+  });
+  document.getElementById('adminDetailsButton').addEventListener('click', function() {
+    window.location.href = 'view.html';
+  });
+  document.getElementById('homeButton').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+  document.getElementById('logoutButton').addEventListener('click', () => {
+      window.location.href = 'login.html';
+    })
+
+</script>
+
+<script>
+  document.getElementById('companyDetailsButton').addEventListener('click', function() {
+    window.location.href = 'companyinfo.html';
+  });
+
+  document.getElementById('licenceButton').addEventListener('click', function() {
+    window.location.href = 'keyadmin.html';
+  });
+
+  document.getElementById('locationButton').addEventListener('click', function() {
+    window.location.href = 'advanced.html';
+  });
+
+  document.getElementById('shiftButton').addEventListener('click', function() {
+    window.location.href = 'shift.html';
+  });
+</script>
+<script>
+const socket = io();
+
+// ////////////////////////////////////linsence expire swal start///////////////////////////////////
+
+
+// Listen for the 'licenseInactive' event
+socket.on('licenseInactive', (message) => {
+
+// Trigger SweetAlert notification
+Swal.fire({
+icon: 'error',
+title: 'License Issue',
+text: message,
+footer: 'Please contact support to resolve the issue.'
+});
+});
+
+
+// ////////////////////////////////////linsence expire swal end ///////////////////////////////////
+
+
+
+</script>
+</body>
+
+</html>

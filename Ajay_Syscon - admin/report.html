@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajay Syscon | Reports</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+    <style>
+        /* General Styles */
+        body {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* background-color: #f1f1f1; */
+            background-color: #adb2cc;
+
+            height: 100vh;
+            overflow: hidden;
+        }
+
+  /* Sidebar container styles */
+  .sidebar {
+  /* background-color: #28292d; Dark color from the logo */
+ 
+  /* background-color:  #393768;  */
+  /* background-color:  #CCD538; */
+  /* background-color:  #b4da4e; */
+   /* background-color:  #c2e959; */
+   background-color: #CCFF33;
+   
+   /* background-color:   #393768;  */
+
+
+
+
+  width: 200px; /* Adjust the width of the sidebar if necessary */
+  /* padding: 15px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+  border-right: 2px solid #1c1c1c;
+  position: fixed; /* Keeps the sidebar fixed */
+  top: 0; /* Aligns the sidebar to the top of the viewport */
+  left: 0; /* Aligns the sidebar to the left of the viewport */
+  height: 100vh; /* Makes the sidebar full height */
+  z-index: 1100; /* Ensures the sidebar appears above the topbar */
+}
+
+/* Sidebar brand logo styles */
+/*  */
+.brand-image {
+  width: 190px; /* Adjust as needed */
+  height: auto;
+  display: block; /* Ensure it's visible */
+  margin: 0 auto; /* Center the image */
+}
+
+
+        /* Content Section */
+        .content {
+            flex: 1; /* Take up the remaining space */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .navbar button {
+            cursor: pointer;
+  font-size: 0.9rem;  /* Slightly smaller font size */
+  padding: 8px 15px;  /* Reduced padding */
+  background-color: black;
+  border-radius: 15px; /* More rounded border */
+  margin-left: 8px;    /* Adjust spacing between buttons */
+  transition: all 0.3s ease;
+  color: #45f3ff;
+  border: 1px solid transparent;
+        }
+
+        .navbar button:hover {
+            /* background-color: #333; */
+            background-color: #45f3ff;
+  color: #d9138a;
+  border-color: #45f3ff;
+  box-shadow: 0 0 15px #45f3ff, 0 0 30px #45f3ff, 0 0 45px #d9138a;
+        }
+
+        /* Filter Section */
+        .filter-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            margin-left: 200px;
+          
+        }
+        
+
+        input, select {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 150px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-left: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            height: 40px;
+            width: 80px;
+        }
+
+        .filter-button {
+            background-color: #000;
+            color:#45f3ff;
+        }
+
+        .export-button {
+            background-color: #000;
+            color:#45f3ff;
+        }
+
+        /* Table Styles */
+        .table-container {
+            flex: 1; /* Allow the table to grow to fill space */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 80vh; /* Prevents overflow from content */
+            margin-top: 15px;
+        }
+
+        
+        #shift-filter {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 150px;
+    background-color: white;
+}
+#liveButton {
+    padding: 8px 16px; /* Adjust padding */
+    margin-top: 5px; /* Optional: Adjust vertical alignment */
+    font-size: 14px; /* Adjust text size */
+    width: 140px; /* Optional: Adjust width for better fit */
+    text-align: center;
+    white-space: nowrap; /* Prevents wrapping */
+    background-color: #000;
+            color:#45f3ff;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+#liveButton:hover {
+    background-color: #45f3ff;
+  color: #d9138a;
+  border-color: #45f3ff;
+  box-shadow: 0 0 15px #45f3ff, 0 0 30px #45f3ff, 0 0 45px #d9138a;
+}
+/* table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            
+
+            table-layout: fixed; 
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+           
+            border: 1px solid #d9138a;
+
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            white-space: nowrap; 
+        }
+
+        thead {
+            
+            background-color: #111111;
+
+            color: #45f3ff;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+
+th:nth-child(10), td:nth-child(10) {
+    width: 20%;  
+}
+th:nth-child(1), td:nth-child(1) { width: 5%; }     
+th:nth-child(5), td:nth-child(5) { width: 10%; }    
+th:nth-child(8), td:nth-child(8) { width: 10%; }     
+ */
+
+
+ table {
+    width: 80%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-left: 250px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #d9138a;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+thead {
+    background-color: #111111;
+    color: #45f3ff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Specific column width adjustments */
+th:nth-child(1), td:nth-child(1) {
+    width: 5%; /* Sr No */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 10%; /* Time */
+}
+
+th:nth-child(5), td:nth-child(5) {
+    width: 12%; /* Sublocation */
+}
+
+th:nth-child(8), td:nth-child(8) {
+    width: 12%; /* Temperature */
+}
+
+th:nth-child(10), td:nth-child(10) {
+    width: 15%; /* Gateway ID */
+}
+
+
+.company-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 40px;
+    margin-left: 300px;
+    position: absolute;
+    top: 10px;
+    left: 20px; /* Position on the left */
+    color: #000; /* Adjust the color as needed */
+    z-index: 1000; /* Ensures it stays above other elements */
+    text-transform: uppercase;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Section -->
+    <!-- <div class="sidebar">
+        <img src="../../dist/img/Ajay_Syscon_Logo.jpg" alt="Logo" class="brand-image" />
+
+    </div> -->
+    <div class="sidebar">
+        <!-- <img src="../../dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" /> -->
+        <img src="dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" />
+      
+
+        <!-- Website link below the logo -->
+        <a href="https://www.ajaysyscon.com/" target="_blank" class="website-link">
+          www.ajaysyscon.com
+        </a>
+      </div>
+    <!-- Main Content Section -->
+    <div class="content">
+        <div class="navbar">
+            <button id="backButton">Back</button>
+            <button id="ReportButton">Reports</button>
+            <button id="colorgraph">Graph</button>
+             <button id="liveButton">Live Temperature</button>
+
+            <button  id="homeButton">Home</button>
+            <button id="logoutButton">Logout</button>
+
+            
+        </div>
+
+        <!-- <div class="filter-container">
+            <label>From Date:
+                <input type="date" id="fromdate-filter" placeholder="dd-mm-yyyy">
+            </label>
+            <label>To Date:
+                <input type="date" id="todate-filter" placeholder="dd-mm-yyyy">
+            </label>
+            <label>Run No:
+                <input type="text" id="cycle-filter" placeholder="Enter Run No">
+            </label>
+            <label>Shift:
+                <select id="shift-filter">
+                    <option value="">All</option>
+                </select>
+            </label>
+            <button class="filter-button" onclick="filterData()">Filter</button>
+            <button class="export-button" id="exportExcel">Excel</button>
+
+            <button class="export-button" id="exportPDF">PDF</button>
+        </div> -->
+
+        <!-- Company Name Section -->
+<div class="company-name" id="companyName">Company Name</div>
+
+        <div class="filter-container">
+            
+            <!-- <div id="companyName" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;"></div> -->
+            
+            <label>From Date:
+                <input type="date" id="fromdate-filter" placeholder="dd-mm-yyyy" 
+                       style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+            </label>
+            <label>To Date:
+                <input type="date" id="todate-filter" placeholder="dd-mm-yyyy" 
+                       style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+            </label>
+            <label>Location:
+                <select id="location-filter" onchange="fetchSublocations()" style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+                    <option value="">Select Location</option>
+                </select>
+            </label>
+            <label>Sub-location:
+                <select id="sublocation-filter" onchange="fetchLances()" style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+                    <option value="">Select Sub-location</option>
+                </select>
+            </label>
+            <label>Lance:
+                <select id="lance-filter" style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+                    <option value="">Select Lance</option>
+                </select>
+            </label>
+            <label>Run No:
+                <select id="cycle-filter" placeholder="Enter Run No" 
+                       style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+                       <option value="">All</option>
+                    </select>
+            </label>
+            <label>Shift:
+                <select id="shift-filter" 
+                        style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+                    <option value="">All</option>
+                </select>
+            </label>
+            <button class="filter-button" onclick="filterData()" 
+                    style="width: 70px; height: 30px; font-size: 12px; padding: 4px;">Filter</button>
+            <button class="export-button" id="exportExcel" 
+                    style="width: 70px; height: 30px; font-size: 12px; padding: 4px;">Excel</button>
+            <button class="export-button" id="exportPDF" 
+                    style="width: 70px; height: 30px; font-size: 12px; padding: 4px;">PDF</button>
+        </div>
+        
+
+
+
+        <div class="table-container">
+            <!-- <div id="companyName" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;"></div> -->
+
+            <table id="report_table">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Sublocation</th>
+                        <th>Lance</th>
+                        <th>Run No</th>
+                        <th>Temperature</th>
+                        <th>Shift</th>
+                        <th>Gateway Id</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                   
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../dist/js/adminlte.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', function () {
+            window.history.back();
+        });
+
+        document.getElementById('ReportButton').addEventListener('click', function () {
+            window.location.href = 'report.html';
+        });
+        document.getElementById('colorgraph').addEventListener('click', () => {
+      window.location.href = 'colorgraph.html';
+    });
+        document.getElementById('liveButton').addEventListener('click', function () {
+            window.location.href = 'live_temp.html';
+        });
+
+        document.getElementById('homeButton').addEventListener('click', function () {
+            window.location.href = 'index.html';
+        });
+
+        document.getElementById('logoutButton').addEventListener('click', function () {
+            window.location.href = 'login.html';
+        });
+    </script>
+
+    <script>
+        var socket = io();
+        
+// ////////////////////////////////////linsence expire swal start///////////////////////////////////
+
+
+// Listen for the 'licenseInactive' event
+socket.on('licenseInactive', (message) => {
+
+// Trigger SweetAlert notification
+Swal.fire({
+icon: 'error',
+title: 'License Issue',
+text: message,
+footer: 'Please contact support to resolve the issue.'
+});
+});
+
+
+// ////////////////////////////////////linsence expire swal end ///////////////////////////////////
+
+// Fetch company name from the server and display it start for pdf and excel sheet
+
+
+
+    // Fetch company name from the server and display it end 
+
+
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     var today = new Date();
+        //     var dd = String(today.getDate()).padStart(2, '0');
+        //     var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        //     var yyyy = today.getFullYear();
+
+        //     var todayStr = yyyy + '-' + mm + '-' + dd;
+        //     document.getElementById('todate-filter').value = todayStr;
+        //     document.getElementById('fromdate-filter').value = todayStr;
+        // });
+        document.addEventListener('DOMContentLoaded', function () {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    var todayStr = `${yyyy}-${mm}-${dd}`;
+    document.getElementById('todate-filter').value = todayStr;
+    document.getElementById('fromdate-filter').value = todayStr;
+});
+
+
+        // Export button onclick
+        // const exportButton = document.getElementById('exportExcel');
+        // const table = document.getElementById('report_table');
+
+        // exportButton.addEventListener('click', () => {
+        //     const wb = XLSX.utils.table_to_book(table, { sheet: 'sheet-1' });
+        //     XLSX.writeFile(wb, 'Report.xlsx');
+        // });
+   // Define the export button and table elements
+   const exportButton = document.getElementById('exportExcel');
+const table = document.getElementById('report_table');
+
+exportButton.addEventListener('click', () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('sheet-1');
+
+    // Get the company name and columns count
+    const companyName = document.getElementById('companyName').innerText;
+    const columnsCount = table.rows[0].cells.length;
+
+    // Insert the company name in the first row and merge cells across all columns
+    worksheet.mergeCells(1, 1, 1, columnsCount);
+    const cell = worksheet.getCell('A1');
+    cell.value = companyName;
+    cell.alignment = { horizontal: 'center', vertical: 'middle' };
+    cell.font = { bold: true, color: { argb: 'FF0000FF' } }; // Bold and blue color (ARGB format)
+
+    // Add table data starting from the second row
+    Array.from(table.rows).forEach((row, rowIndex) => {
+        Array.from(row.cells).forEach((cell, cellIndex) => {
+            worksheet.getCell(rowIndex + 2, cellIndex + 1).value = cell.innerText;
+        });
+    });
+
+    // Export the file
+    workbook.xlsx.writeBuffer().then((buffer) => {
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Report.xlsx';
+        a.click();
+        window.URL.revokeObjectURL(url);
+    });
+});
+
+
+
+
+// Fetch company name from the server and display it
+
+// Emit a request to fetch the latest company data when the page loads
+document.addEventListener('DOMContentLoaded', function () {
+    socket.emit('requestFormDataCompany');
+});
+
+// Listen for the data from the backend
+socket.on('receiveFormDataCompany', function (data) {
+    console.log("Data received from backend:", data); // Log received data for verification
+    if (data && data.company) {
+        document.getElementById('companyName').innerText = data.company;
+    } else {
+        console.error('No company data received or company field missing in received data');
+    }
+});
+
+
+
+
+
+
+
+        // Get runcycle list////////////////////////////////////////////////////////////////////////////////////////////
+        socket.emit('getRuncycle_list');
+
+        socket.on('send_Runcycle_list', function (DataArr) {
+            console.log("cycle_list::::", DataArr);
+            $('#cycle-filter').empty();
+            $('#cycle-filter').append('<option>Select Run No</option>');
+
+            DataArr.forEach(function (cycle) {
+                $('#cycle-filter').append(`<option>${cycle}</option>`);
+            });
+        });
+
+        // Get shift list
+        socket.emit('getShift');
+
+        socket.on('sendShift', function (ShiftArr) {
+            console.log("shift_list::::", ShiftArr);
+            $('#shift-filter').empty();
+            $('#shift-filter').append('<option>Select Shift</option>');
+
+            ShiftArr.forEach(function (shift) {
+                $('#shift-filter').append(`<option>${shift}</option>`);
+            });
+        });
+
+        // Handle default table data
+        socket.on("default_get_table_details", function (defaultDetails) {
+    console.log("default_get_table_details:::::", defaultDetails);
+
+    $("#table-body").empty();
+
+    if (defaultDetails.length > 0) {
+        defaultDetails.forEach(function (detail, index) {
+            const num = index + 1;
+            const runcycle_no = detail.runcycle_no || "-";
+            const temperature = detail.temperature || "-";
+            const location = detail.location || "-";
+            const shift = detail.shift || "-";
+            const date = detail.actual_date_time ? formatDate(detail.actual_date_time) : "-";
+            const time = detail.actual_date_time ? formatTime(detail.actual_date_time) : "-";
+            const button_id = detail.button_id || "-";
+            const gateway_id = detail.gateway_id || "-";
+            const sublocation = detail.sublocation || "-";
+
+            $("#table-body").append(`
+                <tr>
+                    <td>${num}</td>
+                    <td>${date}</td>
+                    <td>${time}</td>
+                    <td>${location}</td>
+                    <td>${sublocation}</td>
+                    <td>${button_id}</td>
+                    <td>${runcycle_no}</td>
+                    <td>${temperature}</td>
+                    <td>${shift}</td>
+                    <td>${gateway_id}</td>
+                </tr>
+            `);
+        });
+    } else {
+        $("#table-body").append("<tr><td colspan='10' style='text-align:center;'>No data available...</td></tr>");
+    }
+});
+
+
+        socket.emit('bydefault_data')
+
+        // Handle filtered table data
+        socket.on("get_filter_table_details", function (tableDetails) {
+    console.log("get_filter_table_details:::::", tableDetails);
+
+    $("#table-body").empty();
+
+    if (tableDetails.length > 0) {
+        tableDetails.forEach(function (detail, index) {
+            const num = index + 1;
+            const date = detail.actual_date_time ? formatDate(detail.actual_date_time) : "-";
+            const time = detail.actual_date_time ? formatTime(detail.actual_date_time) : "-";
+
+            $("#table-body").append(`
+                <tr>
+                    <td>${num}</td>
+                    <td>${date}</td>
+                    <td>${time}</td>
+                    <td>${detail.location || "-"}</td>
+                    <td>${detail.sublocation || "-"}</td>
+                    <td>${detail.button_id || "-"}</td>
+                    <td>${detail.runcycle_no || "-"}</td>
+                    <td>${detail.temperature || "-"}</td>
+                    <td>${detail.shift || "-"}</td>
+                    <td>${detail.gateway_id || "-"}</td>
+                </tr>
+            `);
+        });
+    } else {
+        $("#table-body").append("<tr><td colspan='10' style='text-align:center;'>No data available...</td></tr>");
+    }
+});
+
+
+        // Helper function to format date in DD/MM/YYYY
+function formatDate(dateTime) {
+    const dateObj = new Date(dateTime); // Parse the actual_date_time
+    const day = String(dateObj.getUTCDate()).padStart(2, '0'); // Use UTC date
+    const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0'); // Use UTC month
+    const year = dateObj.getUTCFullYear(); // Use UTC year
+    return `${day}/${month}/${year}`; // Return in DD/MM/YYYY format
+}
+
+// Helper function to format time in HH:MM AM/PM
+function formatTime(dateTime) {
+    const dateObj = new Date(dateTime); // Parse the actual_date_time
+    let hours = dateObj.getUTCHours(); // Use UTC hours
+    const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0'); // Use UTC minutes
+    const ampm = hours >= 12 ? 'PM' : 'AM'; // Determine AM/PM
+    hours = hours % 12 || 12; // Convert to 12-hour format (0 becomes 12)
+    return `${String(hours).padStart(2, '0')}:${minutes} ${ampm}`; // Return in HH:MM AM/PM format
+}
+
+
+
+
+
+//         function filterData() {
+//     var runcycle = $("#cycle-filter").val();
+//     var ToDate = $("#todate-filter").val();
+//     var FromDate = $("#fromdate-filter").val();
+//     var shift = $("#shift-filter").val();
+
+//     // Log to check the values
+//     console.log("filterData ::", runcycle, FromDate, ToDate, shift);
+
+//     // Emit the filter event with the correct values
+//     socket.emit("get_filter_details", runcycle, ToDate, FromDate, shift);
+// }
+
+function filterData() {
+    const runcycle = $("#cycle-filter").val();
+    const ToDate = $("#todate-filter").val();
+    const FromDate = $("#fromdate-filter").val();
+    const shift = $("#shift-filter").val();
+    const location = $("#location-filter").val();
+    const sublocation = $("#sublocation-filter").val();
+    const lance = $("#lance-filter").val();
+
+    console.log("filterData:", { runcycle, ToDate, FromDate, shift, location, sublocation, lance });
+
+    // Emit the filter event with all selected filter values
+    socket.emit("get_filter_details", {
+        runcycle,
+        ToDate,
+        FromDate,
+        shift,
+        location,
+        sublocation,
+        lance
+    });
+}
+
+
+
+    
+    </script>
+
+    <script>
+        // document.getElementById('exportPDF').addEventListener('click', function () {
+        //     // Initialize jsPDF
+        //     var { jsPDF } = window.jspdf;
+        //     var doc = new jsPDF();
+
+        //     // Add title to the PDF
+        //     doc.text('Report Table', 14, 16);
+
+        //     // Convert HTML table to PDF
+        //     doc.autoTable({
+        //         html: '#report_table',
+        //         startY: 20,  // Space from top of page
+        //         theme: 'grid',  // Choose table style (striped, grid, plain)
+        //         headStyles: { fillColor: [69, 243, 255] },  // Custom header styles (optional)
+        //         footStyles: { fillColor: [69, 243, 255] },  // Custom footer styles (optional)
+        //         bodyStyles: { textColor: [0, 0, 0] },  // Text color for body cells
+        //         margin: { top: 20 },
+        //         didDrawPage: function (data) {
+        //             // Optional header
+        //             doc.setFontSize(20);
+        //             doc.setTextColor(40);
+        //             doc.text("Table Export", data.settings.margin.left, 10);///////company name 
+        //         }
+        //     });
+
+        //     // Save the generated PDF
+        //     doc.save('Report.pdf');
+        // });
+        document.getElementById('exportPDF').addEventListener('click', function () {
+    // Initialize jsPDF
+    var { jsPDF } = window.jspdf;
+    var doc = new jsPDF();
+
+    // Get company name
+    const companyName = document.getElementById('companyName').innerText;
+
+    // Add company name to the PDF
+    doc.setFontSize(16);
+    doc.text(companyName, 14, 16);
+
+    // Convert HTML table to PDF
+    doc.autoTable({
+        html: '#report_table',
+        startY: 30,  // Adjust to make space for company name
+        theme: 'grid',
+        headStyles: {
+            fillColor: [69, 243, 255],  // Header background color
+            textColor: [0, 0, 0],       // Header text color (black)
+            fontStyle: 'bold'           // Header text style (bold)
+        },
+        footStyles: { fillColor: [69, 243, 255] },
+        bodyStyles: { textColor: [0, 0, 0] },
+        margin: { top: 20 },
+    });
+
+    // Save the generated PDF
+    doc.save('Report.pdf');
+});
+
+
+
+    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Select elements for the filters
+        const locationSelect = document.getElementById('location-filter');
+        const sublocationSelect = document.getElementById('sublocation-filter');
+        const lanceSelect = document.getElementById('lance-filter');
+
+        // Mapping for lance options based on Location and Sub-location
+        const lanceOptions = {
+            DISP: { "Induction Furnace": ["C1", "C2", "C3", "C4"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+            "SDP 1": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+            "SDP 2": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] }
+        };
+
+        // Request dropdown options from the server
+        socket.emit('fetchDropdownOptions');
+
+        // Populate dropdowns when options are received from the backend
+        socket.on('dropdownOptions', function (options) {
+            // Populate Location dropdown
+            locationSelect.innerHTML = '<option value="" disabled selected>Select Location</option>';
+            options.locations.forEach(location => {
+                const option = document.createElement('option');
+                option.value = location;
+                option.textContent = location;
+                locationSelect.appendChild(option);
+            });
+
+            // Add event listeners to dynamically update Sub-location and Lance options
+            locationSelect.addEventListener('change', fetchSublocations);
+            sublocationSelect.addEventListener('change', fetchLances);
+        });
+
+        // Fetch sub-locations based on selected location
+        function fetchSublocations() {
+            const selectedLocation = locationSelect.value;
+            sublocationSelect.innerHTML = '<option value="" disabled selected>Select Sub-location</option>';
+
+            if (lanceOptions[selectedLocation]) {
+                Object.keys(lanceOptions[selectedLocation]).forEach(sublocation => {
+                    const option = document.createElement('option');
+                    option.value = sublocation;
+                    option.textContent = sublocation;
+                    sublocationSelect.appendChild(option);
+                });
+            }
+
+            // Clear the Lance dropdown on location change
+            lanceSelect.innerHTML = '<option value="" disabled selected>Select Lance</option>';
+        }
+
+        // Fetch lances based on selected sub-location
+        function fetchLances() {
+            const selectedLocation = locationSelect.value;
+            const selectedSublocation = sublocationSelect.value;
+            lanceSelect.innerHTML = '<option value="" disabled selected>Select Lance</option>';
+
+            if (lanceOptions[selectedLocation] && lanceOptions[selectedLocation][selectedSublocation]) {
+                lanceOptions[selectedLocation][selectedSublocation].forEach(lance => {
+                    const option = document.createElement('option');
+                    option.value = lance;
+                    option.textContent = lance;
+                    lanceSelect.appendChild(option);
+                });
+            }
+        }
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

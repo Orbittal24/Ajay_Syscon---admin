@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajay Syscon | Live Temperature</title>
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+
+  <style>
+    /* Reset default styles and set font family */
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Full page container to hold the sidebar, topbar, and content */
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: stretch;
+      background-color: #adb2cc;
+      /* Light background color from the logo */
+      height: 100vh;
+    }
+    /* Topbar container styles */
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      /* Align items to the right */
+      align-items: center;
+      /* background-color: #28292d; */
+      /* Dark color from the logo */
+      padding: 10px 20px;
+      color: #45f3ff;
+      /* Neon green color for text */
+      width: 100%;
+      position: fixed;
+      /* Keeps the topbar fixed at the top */
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+/* Updated nav-item styles for smaller size and rounded border */
+.topbar .nav-item {
+  cursor: pointer;
+  font-size: 0.9rem;  /* Slightly smaller font size */
+  padding: 8px 15px;  /* Reduced padding */
+  background-color: black;
+  border-radius: 15px; /* More rounded border */
+  margin-left: 8px;    /* Adjust spacing between buttons */
+  transition: all 0.3s ease;
+  color: #45f3ff;
+  border: 1px solid transparent;
+}
+
+/* Glow effect on hover */
+.topbar .nav-item:hover {
+  background-color: #45f3ff;
+  color: #d9138a;
+  border-color: #45f3ff;
+  box-shadow: 0 0 15px #45f3ff, 0 0 30px #45f3ff, 0 0 45px #d9138a;
+}
+
+
+    /* Main content wrapper */
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100vh;
+      /* Adjusted to fill the entire viewport height */
+    }
+
+     /* Sidebar container styles */
+  /* Sidebar container styles */
+  .sidebar {
+  /* background-color: #28292d; Dark color from the logo */
+ 
+  /* background-color:  #393768;  */
+  /* background-color:  #CCD538; */
+  /* background-color:  #b4da4e; */
+   /* background-color:  #c2e959; */
+   background-color: #CCFF33;
+
+   
+   /* background-color:   #393768;  */
+
+
+
+
+  width: 350px; /* Adjust the width of the sidebar if necessary */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+  border-right: 2px solid #1c1c1c;
+  position: fixed; /* Keeps the sidebar fixed */
+  top: 0; /* Aligns the sidebar to the top of the viewport */
+  left: 0; /* Aligns the sidebar to the left of the viewport */
+  height: 100vh; /* Makes the sidebar full height */
+  z-index: 1100; /* Ensures the sidebar appears above the topbar */
+}
+
+/* Sidebar brand logo styles */
+/*  */
+.brand-image {
+  width: 250px; /* Adjust as needed */
+  height: auto;
+  display: block; /* Ensure it's visible */
+  margin: 0 auto; /* Center the image */
+}
+
+    /* Content area for the shift assignment form */
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* Main container styles */
+    .box {
+      position: relative;
+      width: 900px;
+      height: 530px;
+      background: #1c1c1c;
+    
+      border-radius: 50px 5px;
+      overflow: hidden;
+      margin-top: 20px;
+      border: 10px solid transparent; 
+ margin-left: 400px;
+    }
+
+    /* Form container styles */
+    /* form {
+      position: absolute;
+      inset: 2px;
+      background: #28292d;
+      /* Dark color from the logo */
+      /* border-radius: 50px 5px; */
+      /* z-index: 10; */
+      /* padding: 30px 30px; */
+      /* display: flex; */
+      /* flex-direction: column; */
+    /* } */
+
+
+    #shiftForm {
+  position: absolute;
+  inset: 2px;
+  background: #28292d;
+  /* Dark color from the logo */
+  border-radius: 50px 5px;
+  z-index: 10;
+  padding: 30px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+    /* Title styles */
+    .title h3 {
+      color: #45f3ff;
+      /* Neon green color for contrast */
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    /* Input box styles */
+    .input-box {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .input-box input {
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      outline: none;
+      border-radius: 15px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      margin: 10px 0;
+      color: white;
+    }
+
+    .input-box input::placeholder {
+      color: #cdd1d2;
+    }
+
+    /* Submit button styles */
+    .input-box input[type="submit"] {
+      background-color: #45f3ff;
+      cursor: pointer;
+      color: #16100e;
+      filter: drop-shadow(0 5px 10px #45f3ff);
+      margin-bottom: 10px;
+    }
+
+    .label-color {
+      color: white;
+      /* Set text color to white */
+    }
+
+
+
+    /* Create animated gradient border effect */
+    .box::before,
+    .box::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 95%;
+      height: 450px;
+      background: linear-gradient(60deg, transparent, #45f3ff, #45f3ff);
+      transform-origin: bottom right;
+      animation: animate 9s linear infinite;
+    }
+
+    .box::after {
+      background: linear-gradient(60deg, transparent, #d9138a, #d9138a);
+      animation-delay: -3s;
+    }
+
+        /* Keyframes for gradient animation */
+    @keyframes animate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+    .temp-display {
+      font-size: 60px;
+      color: black;
+    }
+
+    .display-box {
+      font-size: 35px;
+      /* font-weight: bold; */
+      margin-top: 8px;
+      color: white;
+      text-align: center;
+      justify-content: center;  
+  }
+
+    .display-box_temp {
+      font-size: 70px;
+      margin-left: 10px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    /* For the first element if you want a larger margin */
+    #tempDisplay {
+      margin-top: 10px;
+    }
+    .grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 10px; /* Space between items */
+  padding: 20px;
+  margin-left: 20px;
+  margin-top:30px ;
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-item label {
+  /* margin-bottom: 5px; */
+  font-weight: bold;
+  color: #45f3ff; /* Neon color for labels */
+}
+
+.grid-item input,
+.grid-item textarea {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-bottom: 2px solid #45f3ff;
+  padding: 10px;
+  font-size: 1rem;
+  color: white;
+  outline: none;
+  width: 350px;
+  height: 35px; /* Slightly taller input fields */
+  border-radius: 10px;
+  box-sizing: border-box;
+
+}
+
+.grid-item input:focus,
+.grid-item textarea:focus {
+  border-bottom: 2px solid #d9138a;
+}
+
+
+#address {
+  resize: vertical; /* Allow vertical resizing */
+  overflow-y: auto; /* Show scroll only when needed */
+  min-height: 40px; /* Minimum height */
+  max-height: 100px; /* Limit the height */
+}
+
+.button-container {
+  grid-column: span 2; /* Make the button span both columns */
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  /* width: 350px; */
+}
+
+
+/* Glowing effect for submit button */
+.button-container input[type="button"] {
+  background-color: #45f3ff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  color: #16100e;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px #45f3ff;
+}
+
+/* Glow effect on hover */
+.button-container input[type="button"]:hover {
+  background-color: #d9138a;
+  box-shadow: 0 0 20px #d9138a, 0 0 40px #d9138a;
+}
+
+
+#address {
+  padding: 10px;
+  width: 94%; 
+  height: 35px; /* Adjust height */
+  resize: none; /* Prevent resizing if unnecessary */
+  overflow-y: scroll; /* Show vertical scrollbar */
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-bottom: 2px solid #45f3ff;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+/* Customize the scrollbar for the textarea */
+#address::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+#address::-webkit-scrollbar-track {
+  background: #28292d; /* Track color */
+  border-radius: 10px;
+}
+
+#address::-webkit-scrollbar-thumb {
+  background-color: #45f3ff; /* Scrollbar color */
+  border-radius: 10px;
+  border: 2px solid #28292d; /* Creates some space around the thumb */
+}
+
+#address::-webkit-scrollbar-thumb:hover {
+  background-color: #d9138a; /* Change color on hover */
+}
+
+select.form-control {
+  -webkit-appearance: none; /* Removes default arrow on Chrome, Safari */
+  -moz-appearance: none; /* Removes default arrow on Firefox */
+  appearance: none; /* Modern browsers */
+  background-color: rgba(255, 255, 255, 0.2);
+  color: rgb(243, 232, 232); /* Make text black */
+  border: none;
+  border-bottom: 2px solid #45f3ff;
+  height: 35px;
+  border-radius: 10px;
+  outline: none;
+  width: 355px;
+  padding: 0 10px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+select.form-control option {
+  color: black; /* Ensure dropdown options are black */
+  background-color: rgba(255, 255, 255, 0.9); /* Optional: make options visible */
+}
+
+  </style>
+
+</head>
+
+<body>
+  <!-- Topbar section -->
+  <div class="topbar">
+    <div class="nav-item" id="backButton">Back</div>
+    <div class="nav-item" id="ReportButton">Reports</div>
+    <div class="nav-item" id="colorgraph">Graph</div>
+
+    <div class="nav-item" id="liveButton">Live Temperature</div>
+    <div class="nav-item" id="homeButton">Home</div>
+    <div class="nav-item" id="logoutButton">Logout</div>
+  </div>
+
+  <!-- Main content wrapper -->
+  <div class="main-content">
+    <!-- Sidebar section -->
+    <!-- <div class="sidebar">
+  
+      <img src="../../dist/img/Ajay_Syscon_Logo.jpg" alt="Logo" class="brand-image" />
+
+    </div> -->
+
+    <div class="sidebar">
+      <!-- <img src="../../dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" /> -->
+      <img src="dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" />
+      
+      <!-- Website link below the logo -->
+      <a href="https://www.ajaysyscon.com/" target="_blank" class="website-link">
+        www.ajaysyscon.com
+      </a>
+    </div>
+    <div class="content">
+        <div class="box">
+          <div id="shiftForm">
+            <div class="title">
+              <h3>Lance Mapping</h3>
+            </div>
+        
+              
+              <div class="grid-container">
+                <div class="grid-item">
+                    <label for="furnaceLocationSelect" class="label-color">Location</label>
+                    <select id="furnaceLocationSelect" class="form-control" required>
+                        <option value="" disabled selected>Select Location</option>
+                        <option value="DISP">DISP</option>
+                        <option value="SDP 1">SDP 1</option>
+                        <option value="SDP 2">SDP 2</option>
+                    </select>
+                </div>
+            
+                <div class="grid-item">
+                    <label for="sublocation" class="label-color">Sublocation</label>
+                    <select id="sublocation" class="form-control" required>
+                        <option value="" disabled selected>Select Sublocation</option>
+                        <option value="Induction Furnace">Induction Furnace</option>
+                        <option value="Mg Converter">Mg Converter</option>
+                        <option value="CCM">CCM</option>
+                    </select>
+                </div>
+            
+                <div class="grid-item">
+                    <label for="gateway" class="label-color">Gateway</label>
+                    <select id="gateway" class="form-control" required>
+                        <option value="" disabled selected>Select Gateway</option>
+                        <option value="GATEWAY_01">GATEWAY 1</option>
+                        <option value="GATEWAY_02">GATEWAY 2</option>
+                        <option value="GATEWAY_03">GATEWAY 3</option>
+                        <option value="GATEWAY_04">GATEWAY 4</option>
+                        <option value="GATEWAY_05">GATEWAY 5</option>
+                        <option value="GATEWAY_06">GATEWAY 6</option>
+                        <option value="GATEWAY_07">GATEWAY 7</option>
+                        <option value="GATEWAY_08">GATEWAY 8</option>
+                        <option value="GATEWAY_09">GATEWAY 9</option>
+                    </select>
+                </div>
+            
+                <div class="grid-item">
+                    <label for="switchSelect" class="label-color">Lance</label>
+                    <select id="switchSelect" class="form-control" required>
+                        <option value="" disabled selected>Select Lance</option>
+                        <!-- Options will be dynamically added here based on the selected location and sublocation -->
+                    </select>
+                </div>
+         
+                <div class="grid-item">
+                  <label for="lanceButton" class="label-color">Lance Button</label>
+                  <select id="lanceButton" class="form-control" required>
+                      <option value="" disabled selected>Select Lance Button</option>
+                      <option value="L1">L1</option>
+                      <option value="L2">L2</option>
+                      <option value="L3">L3</option>
+                      <option value="L4">L4</option>
+                      <option value="L5">L5</option>
+                      <option value="L6">L6</option>
+                  </select>
+              </div>
+              
+                  
+            
+                <div class="grid-item">
+                    <label for="minTemp" class="label-color">Min Temperature</label>
+                    <input type="text" id="minTemp" class="form-control" placeholder="Enter Min Temperature" required />
+                </div>
+                
+                <div class="grid-item">
+                    <label for="maxTemp" class="label-color">Max Temperature</label>
+                    <input type="text" id="maxTemp" class="form-control" placeholder="Enter Max Temperature" required />
+                </div>
+                
+                <div class="grid-item">
+                    <label for="tempUnit" class="label-color">Temperature Unit</label>
+                    <select id="tempUnit" class="form-control">
+                        <option value="°C">°C (Celsius)</option>
+                        <option value="°F">°F (Fahrenheit)</option>
+                    </select>
+                </div>
+                
+                <!-- <div class="grid-item">
+                    <button type="button" class="btn btn-custom" id="assignButton"><b>Assign</b></button>
+                </div> -->
+         
+              <div class="button-container">
+              <input type="button" value="Assign" id="assignButton">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+      
+      
+  </div>
+  </div>
+ <!-- jQuery -->
+ <script src="../../plugins/jquery/jquery.min.js"></script>
+ <!-- Bootstrap 4 -->
+ <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <!-- SweetAlert2 -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ <!-- AdminLTE App -->
+ <script src="../../dist/js/adminlte.min.js"></script>
+ <script src="/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    document.getElementById('backButton').addEventListener('click', function() {
+      window.history.back();
+    });
+    
+    document.getElementById('ReportButton').addEventListener('click', function() {
+      window.location.href = 'report.html';
+    });
+    document.getElementById('colorgraph').addEventListener('click', () => {
+        window.location.href = 'colorgraph.html';
+      });
+    document.getElementById('liveButton').addEventListener('click', function() {
+      window.location.href = 'live_temp.html';
+    });
+    document.getElementById('homeButton').addEventListener('click', function() {
+      window.location.href = 'index.html';
+    });
+    document.getElementById('logoutButton').addEventListener('click', function() {
+      window.location.href = 'login.html';
+    });
+ 
+  
+
+ </script>
+<!-- <script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const socket = io();
+      
+      // Select elements
+      const locationSelect = document.getElementById('furnaceLocationSelect');
+      const sublocationSelect = document.getElementById('sublocation');
+      const lanceSelect = document.getElementById('switchSelect');
+      const minTempInput = document.getElementById('minTemp');
+      const maxTempInput = document.getElementById('maxTemp');
+      const tempUnitSelect = document.getElementById('tempUnit');
+      const lanceButtonSelect = document.getElementById('lanceButton'); // New lance button select
+      let selectedUnit = tempUnitSelect ? tempUnitSelect.value : '°C';
+
+      // Lance options mapping
+      const lanceOptions = {
+          DISP: { "Induction Furnace": ["C1", "C2", "C3", "C4"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+          "SDP 1": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+          "SDP 2": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] }
+      };
+
+      // Update Lance options based on selected Location and Sub-location
+      function updateLanceOptions() {
+          const selectedLocation = locationSelect.value;
+          const selectedSublocation = sublocationSelect.value;
+          
+          lanceSelect.innerHTML = '<option value="" disabled selected>Select Lance</option>';
+          if (lanceOptions[selectedLocation] && lanceOptions[selectedLocation][selectedSublocation]) {
+              lanceOptions[selectedLocation][selectedSublocation].forEach(lance => {
+                  const option = document.createElement('option');
+                  option.value = lance;
+                  option.textContent = lance;
+                  lanceSelect.appendChild(option);
+              });
+          }
+      }
+
+      // Event listeners for updating Lance dropdown
+      locationSelect.addEventListener('change', updateLanceOptions);
+      sublocationSelect.addEventListener('change', updateLanceOptions);
+
+      // Update min/max fields with selected temperature unit
+      function updateTempFields() {
+          minTempInput.placeholder = `Enter Min Temperature (${selectedUnit})`;
+          maxTempInput.placeholder = `Enter Max Temperature (${selectedUnit})`;
+      }
+
+      // Update placeholders and append unit when the temperature unit is changed
+      if (tempUnitSelect) {
+          tempUnitSelect.addEventListener('change', () => {
+              selectedUnit = tempUnitSelect.value;
+              updateTempFields();
+          });
+      }
+
+      // Assign Button Handler
+      document.getElementById('assignButton').addEventListener('click', function () {
+          const sublocation = sublocationSelect.value;
+          const switchName = lanceSelect.value;
+          const furnaceLocation = locationSelect.value;
+          const gatewayId = document.getElementById('gateway').value;
+          const minTemp = minTempInput.value + selectedUnit; // Append unit
+          const maxTemp = maxTempInput.value + selectedUnit; // Append unit
+          const lanceButton = lanceButtonSelect.value; // New lance button field
+
+          if (sublocation && switchName && furnaceLocation && gatewayId && minTemp && maxTemp && lanceButton) {
+              socket.emit('assignSwitch', {
+                  sublocation,
+                  switch: switchName,
+                  furnaceLocation,
+                  gatewayId,
+                  min_temp: minTemp,
+                  max_temp: maxTemp,
+                  lance_button: lanceButton // Include lance button in data
+              });
+
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Assigned Successfully',
+                  text: 'The switch has been assigned successfully.',
+                  showConfirmButton: false,
+                  timer: 2000
+              });
+          } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Incomplete Input',
+                  text: 'Please fill in all the fields before assigning.',
+                  confirmButtonText: 'Okay'
+              });
+          }
+      });
+
+      // Handle socket errors
+      socket.on('error', function (error) {
+          console.error("Socket error:", error);
+      });
+
+      updateTempFields(); // Initial call to set placeholders
+  });
+</script> -->
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const socket = io();
+      
+      // Select elements
+      const locationSelect = document.getElementById('furnaceLocationSelect');
+      const sublocationSelect = document.getElementById('sublocation');
+      const lanceSelect = document.getElementById('switchSelect');
+      const minTempInput = document.getElementById('minTemp');
+      const maxTempInput = document.getElementById('maxTemp');
+      const tempUnitSelect = document.getElementById('tempUnit');
+      const lanceButtonSelect = document.getElementById('lanceButton');
+      const gatewaySelect = document.getElementById('gateway'); // Add gateway select
+      let selectedUnit = tempUnitSelect ? tempUnitSelect.value : '°C';
+
+      // Lance options mapping
+      const lanceOptions = {
+          DISP: { "Induction Furnace": ["C1", "C2", "C3", "C4"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+          "SDP 1": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+          "SDP 2": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] }
+      };
+
+      // Update Lance options based on selected Location and Sublocation
+      function updateLanceOptions() {
+          const selectedLocation = locationSelect.value;
+          const selectedSublocation = sublocationSelect.value;
+          
+          lanceSelect.innerHTML = '<option value="" disabled>Select Lance</option>';
+          if (lanceOptions[selectedLocation] && lanceOptions[selectedLocation][selectedSublocation]) {
+              lanceOptions[selectedLocation][selectedSublocation].forEach(lance => {
+                  const option = document.createElement('option');
+                  option.value = lance;
+                  option.textContent = lance;
+                  lanceSelect.appendChild(option);
+              });
+          }
+          // Restore Lance selection if previously saved
+          lanceSelect.value = localStorage.getItem('lance') || '';
+      }
+
+      // Save form data to localStorage
+      function saveFormData() {
+          localStorage.setItem('furnaceLocation', locationSelect.value);
+          localStorage.setItem('sublocation', sublocationSelect.value);
+          localStorage.setItem('lance', lanceSelect.value);
+          localStorage.setItem('minTemp', minTempInput.value);
+          localStorage.setItem('maxTemp', maxTempInput.value);
+          localStorage.setItem('tempUnit', tempUnitSelect.value);
+          localStorage.setItem('lanceButton', lanceButtonSelect.value);
+          localStorage.setItem('gateway', gatewaySelect.value); // Save gateway selection
+      }
+
+      // Load form data from localStorage
+      function loadFormData() {
+          locationSelect.value = localStorage.getItem('furnaceLocation') || '';
+          sublocationSelect.value = localStorage.getItem('sublocation') || '';
+          lanceSelect.value = localStorage.getItem('lance') || '';
+          minTempInput.value = localStorage.getItem('minTemp') || '';
+          maxTempInput.value = localStorage.getItem('maxTemp') || '';
+          tempUnitSelect.value = localStorage.getItem('tempUnit') || '°C';
+          lanceButtonSelect.value = localStorage.getItem('lanceButton') || '';
+          gatewaySelect.value = localStorage.getItem('gateway') || ''; // Load gateway selection
+          updateLanceOptions(); // Update options and restore selections
+      }
+
+      // Attach change event listeners to save form data on change
+      [locationSelect, sublocationSelect, lanceSelect, minTempInput, maxTempInput, tempUnitSelect, lanceButtonSelect, gatewaySelect].forEach(element => {
+          element.addEventListener('change', saveFormData);
+      });
+
+      loadFormData(); // Load saved data on page load
+
+      // Event listeners for updating Lance dropdown options
+      locationSelect.addEventListener('change', updateLanceOptions);
+      sublocationSelect.addEventListener('change', updateLanceOptions);
+
+      // Update min/max fields with selected temperature unit
+      function updateTempFields() {
+          minTempInput.placeholder = `Enter Min Temperature (${selectedUnit})`;
+          maxTempInput.placeholder = `Enter Max Temperature (${selectedUnit})`;
+      }
+
+      // Update placeholders and append unit when the temperature unit is changed
+      if (tempUnitSelect) {
+          tempUnitSelect.addEventListener('change', () => {
+              selectedUnit = tempUnitSelect.value;
+              updateTempFields();
+          });
+      }
+
+      // Assign Button Handler
+      document.getElementById('assignButton').addEventListener('click', function () {
+          const sublocation = sublocationSelect.value;
+          const switchName = lanceSelect.value;
+          const furnaceLocation = locationSelect.value;
+          const gatewayId = gatewaySelect.value;
+          const minTemp = minTempInput.value + selectedUnit;
+          const maxTemp = maxTempInput.value + selectedUnit;
+          const lanceButton = lanceButtonSelect.value;
+
+          if (sublocation && switchName && furnaceLocation && gatewayId && minTemp && maxTemp && lanceButton) {
+              socket.emit('assignSwitch', {
+                  sublocation,
+                  switch: switchName,
+                  furnaceLocation,
+                  gatewayId,
+                  min_temp: minTemp,
+                  max_temp: maxTemp,
+                  lance_button: lanceButton
+              });
+
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Assigned Successfully',
+                  text: 'The switch has been assigned successfully.',
+                  showConfirmButton: false,
+                  timer: 2000
+              });
+          } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Incomplete Input',
+                  text: 'Please fill in all the fields before assigning.',
+                  confirmButtonText: 'Okay'
+              });
+          }
+      });
+
+      // Handle socket errors
+      socket.on('error', function (error) {
+          console.error("Socket error:", error);
+      });
+
+      updateTempFields(); // Initial call to set placeholders
+  });
+</script>
+
+
+
+</body>
+
+</html>

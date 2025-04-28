@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client License Activation</title>
+</head>
+<body>
+    <h2>Client: License Activation</h2>
+    <input type="text" id="license-key" placeholder="Enter License Key">
+    <button id="activate-key">Activate</button>
+
+    <div>
+        <p>First Entry Date: <span id="first-date"></span></p>
+        <p>Current Entry Date: <span id="current-date"></span></p>
+        <p>Status License: <span id="status-license"></span></p>
+        <p>License Name: <span id="license-name"></span></p>
+        <p>Valid Days: <span id="valid-days"></span></p>
+        <p>Days Used: <span id="days-used"></span></p>
+        <p>Days Remaining: <span id="days-remaining"></span></p>
+        <p>Expiry Date: <span id="expiry-date"></span></p>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // Helper function to format dates as dd/mm/yyyy
+        const formatDate = (dateString) => {
+            const date = new Date(dateString);
+            return `${String(date.getDate()).padStart(2, '0')}/` +
+                   `${String(date.getMonth() + 1).padStart(2, '0')}/` +
+                   `${date.getFullYear()}`;
+        };
+
+        // Function to display data on the page
+        const displayData = (data) => {
+            document.getElementById('license-key').value = data.License_Name || '';
+            document.getElementById('first-date').textContent = formatDate(data.First_Entry_Date);
+            document.getElementById('current-date').textContent = formatDate(data.Current_Entry_Date);
+            document.getElementById('status-license').textContent = data.Status_License;
+            document.getElementById('license-name').textContent = data.License_Name;
+            document.getElementById('valid-days').textContent = data.Valid_Days;
+            document.getElementById('days-used').textContent = data.Days_Used;
+            document.getElementById('days-remaining').textContent = data.Days_Remaining;
+            document.getElementById('expiry-date').textContent = formatDate(data.Expiry_Date);
+        };
+
+        // Load data from localStorage and display it on page load
+        const savedData = JSON.parse(localStorage.getItem('licenseData'));
+        if (savedData) {
+            displayData(savedData);
+        }
+
+        document.getElementById('activate-key').onclick = () => {
+            const key = document.getElementById('license-key').value;
+            socket.emit('activateKey', key);
+        };
+
+        socket.on('licenseData', (data) => {
+            if (data.error) {
+                alert(`Error: ${data.error}`);
+                return;
+            }
+
+            // Save the received data to localStorage
+            localStorage.setItem('licenseData', JSON.stringify(data));
+
+            // Display the data on the page
+            displayData(data);
+        });
+    </script>
+</body>
+</html>

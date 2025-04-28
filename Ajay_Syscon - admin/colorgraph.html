@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajay Syscon</title>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* background-color: #f0f0f0; */
+            background-color: #adb2cc;
+
+            padding: 20px;
+            text-align: center;
+        }
+
+        .filter-container {
+        margin-bottom: 20px;
+        margin-left: 300px; /* Adjust to match the sidebar width */
+        text-align: left;
+    }
+        canvas {
+            max-width: 980px;
+            margin: 20px auto;
+            margin-right: 35px;
+        }
+    /* Topbar container styles */
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      /* Align items to the right */
+      align-items: center;
+      /* background-color: #28292d; */
+      /* Dark color from the logo */
+      padding: 10px 20px;
+      color: #45f3ff;
+      /* Neon green color for text */
+      width: 100%;
+      position: fixed;
+      /* Keeps the topbar fixed at the top */
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+/* Updated nav-item styles for smaller size and rounded border */
+.topbar .nav-item {
+  cursor: pointer;
+  font-size: 0.9rem;  /* Slightly smaller font size */
+  padding: 8px 15px;  /* Reduced padding */
+  background-color: black;
+  border-radius: 15px; /* More rounded border */
+  margin-left: 8px;    /* Adjust spacing between buttons */
+  transition: all 0.3s ease;
+  color: #45f3ff;
+  border: 1px solid transparent;
+}
+
+/* Glow effect on hover */
+.topbar .nav-item:hover {
+  background-color: #45f3ff;
+  color: #d9138a;
+  border-color: #45f3ff;
+  box-shadow: 0 0 15px #45f3ff, 0 0 30px #45f3ff, 0 0 45px #d9138a;
+}
+
+    /* Main content wrapper */
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100vh;
+      /* Adjusted to fill the entire viewport height */
+    }
+
+  /* Sidebar container styles */
+  .sidebar {
+  /* background-color: #28292d; Dark color from the logo */
+ 
+  /* background-color:  #393768;  */
+  /* background-color:  #CCD538; */
+  /* background-color:  #b4da4e; */
+   /* background-color:  #c2e959; */
+   /* background-color: #CCFF33; */
+   background-color: #CCFF33;
+
+
+   
+   /* background-color:   #393768;  */
+
+
+
+
+  width: 290px; /* Adjust the width of the sidebar if necessary */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+  border-right: 2px solid #1c1c1c;
+  position: fixed; /* Keeps the sidebar fixed */
+  top: 0; /* Aligns the sidebar to the top of the viewport */
+  left: 0; /* Aligns the sidebar to the left of the viewport */
+  height: 100vh; /* Makes the sidebar full height */
+  z-index: 1100; /* Ensures the sidebar appears above the topbar */
+}
+
+/* Sidebar brand logo styles */
+/*  */
+.brand-image {
+  width: 250px; /* Adjust as needed */
+  height: auto;
+  display: block; /* Ensure it's visible */
+  margin: 0 auto; /* Center the image */
+}
+
+/* Styling specific to the logout button */
+#homeButton {
+  margin-right: 25px; /* Adjust the value as needed */
+}
+
+  /* Special styling for the Filter and PDF buttons */
+  .action-button {
+        cursor: pointer;
+        font-size: 0.9rem;
+        padding: 8px 15px;
+        background-color: black;
+        color: #45f3ff;
+        border: 1px solid transparent;
+        border-radius: 15px;
+        margin-right: 10px; /* Adds some space between the buttons */
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .action-button:hover {
+        background-color: #45f3ff;
+        color: #d9138a;
+        border-color: #45f3ff;
+        box-shadow: 0 0 15px #45f3ff, 0 0 30px #45f3ff, 0 0 45px #d9138a;
+    }
+
+
+    .company-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    margin-left: 300px;
+    position: absolute;
+    top: 10px;
+    left: 20px; /* Position on the left */
+    color: #000; /* Adjust the color as needed */
+    z-index: 1000; /* Ensures it stays above other elements */
+    text-transform: uppercase;
+}
+/* Specific margin for logout button to prevent overflow */
+#logoutButton {
+    margin-left: -10px;
+    margin-right: 50px; /* Extra right margin for spacing */
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="nav-item" id="backButton">Back</div>
+        <div class="nav-item" id="ReportButton">Reports</div>
+        <div class="nav-item" id="liveButton">Live Temperature</div>
+        <div class="nav-item" id="homeButton">Home</div>
+        <div class="nav-item" id="logoutButton">Logout</div>
+        <!-- <div class="nav-item" id="btn-export-pdf">PDF</div> -->
+      </div>
+      <!-- <div class="sidebar">
+        <img src="../../dist/img/Ajay_Syscon_Logo.jpg" alt="Logo" class="brand-image" />
+      </div> -->
+
+          <div class="sidebar">
+        <!-- <img src="../../dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" /> -->
+        <img src="dist/img/Ajay_Syscon_Logo_transparent.png" alt="Logo" class="brand-image" />
+        
+        <!-- Website link below the logo -->
+        <a href="https://www.ajaysyscon.com/" target="_blank" class="website-link">
+          www.ajaysyscon.com
+        </a>
+      </div>
+    <h1></h1>
+    <!-- <h1>Temperature Graph</h1> -->
+
+<!-- 
+    <div class="filter-container">
+        <label for="fromDate">From Date:</label>
+        <input type="date" id="fromDate">
+        <label for="toDate">To Date:</label>
+        <input type="date" id="toDate">
+        <label>Location:
+          <select id="location-filter" onchange="fetchSublocations()" style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+              <option value="">Select Location</option>
+          </select>
+      </label>
+      <label>Sub-location:
+          <select id="sublocation-filter" onchange="fetchLances()" style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+              <option value="">Select Sub-location</option>
+          </select>
+      </label>
+      <label>Lance:
+          <select id="lance-filter" style="width: 120px; height: 30px; font-size: 12px; padding: 4px;">
+              <option value="">Select Lance</option>
+          </select>
+      </label>
+        <button id="filterBtn">Filter</button>
+        <button id="btn-export-pdf">PDF</button>
+
+    </div> -->
+
+
+  
+    <h1 id="companyName">Your Company Name</h1>
+  <div class="filter-container">
+
+      <label for="fromDate">From Date:</label>
+      <input type="date" id="fromDate" class="filter-input">
+      
+      <label for="toDate">To Date:</label>
+      <input type="date" id="toDate" class="filter-input">
+      
+      <label>Location:
+          <select id="location-filter" onchange="fetchSublocations()" class="filter-input">
+              <option value="">Select Location</option>
+          </select>
+      </label>
+      
+      <label>Sub-location:
+          <select id="sublocation-filter" onchange="fetchLances()" class="filter-input">
+              <option value="">Select Sub-location</option>
+          </select>
+      </label>
+      
+      <label>Lance:
+          <select id="lance-filter" class="filter-input">
+              <option value="">Select Lance</option>
+          </select>
+      </label>
+      
+      <!-- <button id="filterBtn">Filter</button>
+      <button id="btn-export-pdf">PDF</button> -->
+      <button id="filterBtn" class="action-button">Filter</button>
+    <button id="btn-export-pdf" class="action-button">PDF</button>
+  </div>
+  
+    <canvas id="temperatureChart" width="980" height="500" ></canvas>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const socket = io(); // Connect to the server
+
+// ////////////////////////////////////linsence expire swal start///////////////////////////////////
+   
+
+// Listen for the 'licenseInactive' event
+socket.on('licenseInactive', (message) => {
+
+// Trigger SweetAlert notification
+Swal.fire({
+    icon: 'error',
+    title: 'License Issue',
+    text: message,
+    footer: 'Please contact support to resolve the issue.'
+});
+});
+
+
+// ////////////////////////////////////linsence expire swal end ///////////////////////////////////
+
+
+
+
+        const ctx = document.getElementById('temperatureChart').getContext('2d');
+
+//         const temperatureChart = new Chart(ctx, {
+//             type: 'line',
+//             data: {
+//                 labels: [],
+//                 datasets: [{
+//                     label: 'Temperature (°C)',
+//                     data: [],
+//                     borderColor: 'rgba(75, 192, 192, 1)',
+//                     borderWidth: 2,
+//                     fill: false,
+//                     tension: 0.1,
+//                     pointBorderColor: 'black',
+//                     pointRadius: 6,
+//                     pointBackgroundColor: [] // Colors assigned dynamically
+//                 }]
+//             },
+//             options: {
+//                 responsive: true,
+//                 plugins: {
+//                     tooltip: {
+//                         callbacks: {
+//                             // label: function (tooltipItem) {
+//                             //     const data = tooltipItem.raw;
+//                             //     console.log('Tooltip data:', data); 
+
+//                             //     const lance = data.lance ? data.lance : 'N/A';
+
+//                             //     return [
+//                             //         `Temp: ${data.temperature}°C`,
+//                             //         `Loc: ${data.location}`,
+//                             //         `Subloc: ${data.sublocation}`,
+//                             //         `Lance: ${lance}`
+//                             //     ];
+//                             // }
+//                             label: function (tooltipItem) {
+//     const data = tooltipItem.raw;
+//     console.log('Tooltip data:', data); // Log to verify data integrity
+
+//     const lance = data.lance ? data.lance : 'N/A';
+
+//     return [
+//         `Temp: ${data.temperature}°C`,
+//         `Loc: ${data.location}`,  // No transformation, original case from backend
+//         `Subloc: ${data.sublocation}`,  // No transformation, original case from backend
+//         `Lance: ${lance}`
+//     ];
+// }
+
+//                         },
+//                         displayColors: false // Disable color boxes in tooltips
+//                     }
+//                 },
+//                 scales: {
+//                     x: {
+//                         type: 'time',
+//                         time: {
+//                             unit: 'minute',
+//                             tooltipFormat: 'MMM D, h:mm A'
+//                         },
+//                         title: {
+//                             display: true,
+//                             text: 'Time'
+//                         }
+//                     },
+//                     y: {
+//                         title: {
+//                             display: true,
+//                             text: 'Temperature (°C)'
+//                         }
+//                     }
+//                 }
+//             }
+//         });
+
+const temperatureChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Temperature (°C)',
+            data: [],
+            borderColor: '#393768',
+            borderWidth: 4,
+            fill: false,
+            tension: 0.1,
+            pointBorderColor: 'black',
+            pointRadius: 6,
+            pointBackgroundColor: [] // Colors assigned dynamically
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+    callbacks: {
+        title: function () {
+            return ''; // Remove the default title
+        },
+        label: function (tooltipItem) {
+            const data = tooltipItem.raw;
+            const formattedDate = moment.utc(data.x).format('DD/MM/YYYY');
+            const formattedTime = moment.utc(data.x).format('hh:mm A');
+
+            return [
+                `Date: ${formattedDate}`,
+                `Time: ${formattedTime}`,
+                `Temp: ${data.temperature}`,
+                `Loc: ${data.location}`,
+                `Subloc: ${data.sublocation}`,
+                `Lance: ${data.lance}`
+            ];
+        }
+    },
+    displayColors: false // Disable color boxes in tooltips
+}
+
+        },
+        scales: {
+    x: {
+        type: 'time',
+        time: {
+            unit: 'minute',
+            tooltipFormat: 'MMM D, h:mm A'
+        },
+        title: {
+            display: true,
+            text: 'Time',
+            color: 'black'
+        },
+        ticks: {
+            color: 'black',
+            font: {
+                size: 14 // Adjust font size for X-axis labels
+            }
+        },
+        grid: {
+            drawBorder: true,
+            color: 'black', // Change grid color for X-axis
+            lineWidth: 1 // Increase the grid line thickness for X-axis
+        }
+    },
+    y: {
+        title: {
+            display: true,
+            text: 'Temperature (°C)',
+            color: 'black'
+        },
+        ticks: {
+            color: 'black',
+            font: {
+                size: 14 // Adjust font size for Y-axis labels
+            }
+        },
+        grid: {
+            drawBorder: true,
+            color: 'black', // Change grid color for Y-axis
+            lineWidth: 1 // Increase the grid line thickness for Y-axis
+        }
+    }
+}
+    }
+});
+
+function updateChart(data) {
+    console.log('Received temperature data:', data);
+
+    temperatureChart.data.labels = [];
+    temperatureChart.data.datasets[0].data = [];
+    temperatureChart.data.datasets[0].pointBackgroundColor = [];
+
+    data.forEach(item => {
+        const tempNum = parseInt(item.temperature.replace(/\D/g, ''), 10);
+
+        const point = {
+            x: moment.utc(item.actual_date_time).toISOString(), // Keep the time in UTC
+            y: tempNum,
+            temperature: item.temperature,
+            location: item.location,
+            sublocation: item.sublocation,
+            lance: item.lance,
+            tempStatus: item.tempStatus
+        };
+
+        // Determine color based on tempStatus
+        let color = 'gray';
+        if (point.tempStatus === 'inRange') color = 'green';
+        if (point.tempStatus === 'belowRange') color = 'orange';
+        if (point.tempStatus === 'outOfRange') color = 'red';
+
+        // Push data to the chart
+        temperatureChart.data.labels.push(point.x);
+        temperatureChart.data.datasets[0].data.push(point);
+        temperatureChart.data.datasets[0].pointBackgroundColor.push(color);
+    });
+
+    temperatureChart.update();
+}
+
+        socket.on('temperatureData', updateChart);
+
+        window.onload = () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('fromDate').value = today;
+            document.getElementById('toDate').value = today;
+
+            socket.emit('filterData', { fromDate: today, toDate: today });
+        };
+
+        document.getElementById('filterBtn').addEventListener('click', () => {
+    const fromDate = document.getElementById('fromDate').value;
+    const toDate = document.getElementById('toDate').value;
+    const location = document.getElementById('location-filter').value;
+    const sublocation = document.getElementById('sublocation-filter').value;
+    const lance = document.getElementById('lance-filter').value;
+
+    if (!fromDate || !toDate) {
+        alert('Please select both From Date and To Date');
+        return;
+    }
+
+    socket.emit('filterData', { fromDate, toDate, location, sublocation, lance });
+});
+
+
+
+
+// fetching dynamic company name str/////////////////////////////////////
+document.addEventListener('DOMContentLoaded', function () {
+    socket.emit('requestFormDataCompany');
+});
+
+// Listen for the data from the backend
+socket.on('receiveFormDataCompany', function (data) {
+    console.log("Data received from backend:", data); // Log received data for verification
+    if (data && data.company) {
+        document.getElementById('companyName').innerText = data.company;
+    } else {
+        console.error('No company data received or company field missing in received data');
+    }
+});
+// fetching dynamic company name end/////////////////////////////////////
+
+//////////////////////////////////////pdf strt//////////////////////////////////////////////////////////////
+document.getElementById('btn-export-pdf').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+
+    // Get the dynamically set company name, convert it to uppercase
+    let companyName = document.getElementById('companyName').innerText;
+    companyName = companyName.toUpperCase();
+
+    // Set font size, style, and color for the company name
+    pdf.setFontSize(16);
+    pdf.setFont("helvetica", "bold");
+    pdf.setTextColor(0, 0, 255); // Set text color to blue (RGB: 0, 0, 255)
+
+    // Calculate the x-position to center the company name
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const textWidth = pdf.getTextWidth(companyName);
+    const x = (pageWidth - textWidth) / 2;
+
+    // Add the company name to the top center of the page
+    pdf.text(companyName, x, 20); // Adjust '20' for vertical position as needed
+
+    // Reset text color and font style for the rest of the content
+    pdf.setFontSize(12);
+    pdf.setFont("helvetica", "normal");
+    pdf.setTextColor(0, 0, 0); // Reset to black
+
+    // Add chart title below the company name
+    pdf.text('Temperature Chart', 10, 40); // Adjust '40' as needed based on company name position
+
+    // Get the chart image and add it below the title
+    const img = temperatureChart.toBase64Image();
+    pdf.addImage(img, 'PNG', 10, 50, 180, 160); // Adjust '50' based on chart title position
+
+    // Save the generated PDF
+    pdf.save('temperature_chart.pdf');
+});
+//////////////////////////////////////pdf end//////////////////////////////////////////////////////////////
+
+    document.getElementById('backButton').addEventListener('click', () => {
+      window.history.back();
+    });
+
+    document.getElementById('ReportButton').addEventListener('click', () => {
+      window.location.href = 'report.html';
+    });
+
+    document.getElementById('liveButton').addEventListener('click', () => {
+      window.location.href = 'live_temp.html';
+    });
+
+    document.getElementById('homeButton').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', () => {
+      window.location.href = 'login.html';
+    });
+
+    </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      // Select elements for the filters
+      const locationSelect = document.getElementById('location-filter');
+      const sublocationSelect = document.getElementById('sublocation-filter');
+      const lanceSelect = document.getElementById('lance-filter');
+
+      // Mapping for lance options based on Location and Sub-location
+      const lanceOptions = {
+          DISP: { "Induction Furnace": ["C1", "C2", "C3", "C4"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+          "SDP 1": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] },
+          "SDP 2": { "Induction Furnace": ["C1", "C2", "C3"], "Mg Converter": ["MC1", "MC2"], "CCM": ["CCM-1", "CCM-2", "CCM-3", "CCM-4", "CCM-5", "CCM-6"] }
+      };
+
+      // Request dropdown options from the server
+      socket.emit('fetchDropdownOptions');
+
+      socket.on('dropdownOptions', function (options) {
+    const locationSelect = document.getElementById('location-filter');
+    locationSelect.innerHTML = '<option value="" disabled selected>Select Location</option>';
+    options.locations.forEach(location => {
+        const option = document.createElement('option');
+        option.value = location;
+        option.textContent = location;
+        locationSelect.appendChild(option);
+    });
+
+          // Add event listeners to dynamically update Sub-location and Lance options
+          locationSelect.addEventListener('change', fetchSublocations);
+          sublocationSelect.addEventListener('change', fetchLances);
+      });
+
+      // Fetch sub-locations based on selected location
+      function fetchSublocations() {
+          const selectedLocation = locationSelect.value;
+          sublocationSelect.innerHTML = '<option value="" disabled selected>Select Sub-location</option>';
+
+          if (lanceOptions[selectedLocation]) {
+              Object.keys(lanceOptions[selectedLocation]).forEach(sublocation => {
+                  const option = document.createElement('option');
+                  option.value = sublocation;
+                  option.textContent = sublocation;
+                  sublocationSelect.appendChild(option);
+              });
+          }
+
+          // Clear the Lance dropdown on location change
+          lanceSelect.innerHTML = '<option value="" disabled selected>Select Lance</option>';
+      }
+
+      // Fetch lances based on selected sub-location
+      function fetchLances() {
+          const selectedLocation = locationSelect.value;
+          const selectedSublocation = sublocationSelect.value;
+          lanceSelect.innerHTML = '<option value="" disabled selected>Select Lance</option>';
+
+          if (lanceOptions[selectedLocation] && lanceOptions[selectedLocation][selectedSublocation]) {
+              lanceOptions[selectedLocation][selectedSublocation].forEach(lance => {
+                  const option = document.createElement('option');
+                  option.value = lance;
+                  option.textContent = lance;
+                  lanceSelect.appendChild(option);
+              });
+          }
+      }
+  });
+</script>
+</body>
+</html>

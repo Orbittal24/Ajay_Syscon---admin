@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Data Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .data-display {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Data from Furnace</h1>
+    <div class="data-display">
+        <p><strong>Date:</strong> <span id="date"></span></p>
+        <p><strong>Time:</strong> <span id="time"></span></p>
+        <p><strong>Run Cycle No:</strong> <span id="run"></span></p>
+        <p><strong>Temperature:</strong> <span id="temp"></span></p>
+        <p><strong>Temperature Status:</strong> <span id="tempStatus"></span></p>
+        <p><strong>Min Temperature:</strong> <span id="minTemp"></span></p>
+        <p><strong>Max Temperature:</strong> <span id="maxTemp"></span></p>
+        <p><strong>Button ID:</strong> <span id="buttonId"></span></p>
+        <p><strong>Gateway ID:</strong> <span id="gatewayId"></span></p>
+        <p><strong>Location Code:</strong> <span id="LocationCode"></span></p>
+        <p><strong>Location:</strong> <span id="Location"></span></p>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const socket = io(); // Initialize Socket.IO client connection
+
+        // Listen for live data event from the server
+        socket.on('liveData', (data) => {
+            console.log("data",data);
+            
+            // Update the DOM with the received data
+            document.getElementById('date').textContent = data.date;
+            document.getElementById('time').textContent = data.time;
+            document.getElementById('run').textContent = data.run;
+            document.getElementById('temp').textContent = data.temp;
+            document.getElementById('tempStatus').textContent = data.tempStatus;
+            document.getElementById('minTemp').textContent = data.minTemp;
+            document.getElementById('maxTemp').textContent = data.maxTemp;
+            document.getElementById('buttonId').textContent = data.buttonId;
+            document.getElementById('gatewayId').textContent = data.gatewayId;
+            document.getElementById('LocationCode').textContent = data.LocationCode;
+            document.getElementById('Location').textContent = data.Location;
+        });
+
+        // Optionally you can emit an event to request live data from the server
+        socket.emit('get_location_live'); 
+        
+       
+    </script>
+
+<script>
+    // Trigger socket call when page loads
+    window.onload = function() {
+      console.log("Page loaded, requesting furnace readings...");
+
+      // Listen for the 'furnace_readingsBACKUP' event
+      socket.emit("furnace_readingsBACKUP");
+    };
+  </script>
+</body>
+</html>

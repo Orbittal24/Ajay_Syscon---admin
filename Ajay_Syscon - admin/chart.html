@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exact Date-Time Graph</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        #myChart {
+            max-width: 90%;
+            max-height: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="myChart"></canvas>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+
+        // Sample data for demonstration (use your own backend data)
+        const data = {
+            labels: [
+                "05-11-2017 18:26", "11-11-2017 12:59", "12-11-2017 13:24",
+                "12-11-2017 13:33", "12-11-2017 14:45", "12-11-2017 14:46",
+                "12-11-2017 15:09", "12-11-2017 22:39", "02-12-2017 01:43",
+                "02-12-2017 09:35", "02-12-2017 15:44", "02-12-2017 19:22"
+            ],
+            datasets: [{
+                label: 'Temperature',
+                data: [1200, 1230, 1220, 1200, 1195, 1180, 800, 1200, 1210, 1205, 1190, 1200],
+                borderColor: 'blue',
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: 'white',
+                pointBorderColor: 'blue',
+                fill: false,
+                tension: 0.1
+            }]
+        };
+
+        // Chart configuration
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        type: 'category',
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 45, // Rotate labels for better readability
+                            minRotation: 45,
+                            callback: function (value) {
+                                const dateLabel = this.getLabelForValue(value);
+                                const parts = dateLabel.split(' ');
+                                return parts[0] + '\n' + parts[1]; // Split date and time on two lines
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Temperature'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `Temp: ${context.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Render the chart
+        const myChart = new Chart(ctx, config);
+    </script>
+</body>
+
+</html>
